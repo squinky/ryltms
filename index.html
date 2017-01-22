@@ -6,24 +6,60 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="soundjs-0.6.2.min.js"></script>
 		<script>
-			var droplets;
+			createjs.Sound.on("fileload", loadHandler);
 			createjs.Sound.registerSound("waterdropletsloop1.ogg", "droplets");
+			createjs.Sound.registerSound("leavesloop1.ogg", "leaves");
+			createjs.Sound.registerSound("lightrainloop1.ogg", "lightrain");
+			createjs.Sound.registerSound("rain-dropletcomboloop1.ogg", "raindropletcombo");
+
+			function loadHandler()
+			{
+				createjs.Sound.play("lightrain", {loop:-1});
+			}
+
+			var sounds = [
+				{ "intensity": 0, "effect": "raindropletcombo", "instance": null },
+				{ "intensity": 500, "effect": "leaves", "instance": null },
+				{ "intensity": 700, "effect": "droplets", "instance": null }
+			];
 
 			var socket = io();
 			socket.on('update', function(intensity)
 			{
-				if (intensity > 100)
+				for (var i = 0; i < sounds.length; i++)
 				{
-					if (!droplets) droplets = createjs.Sound.play("droplets", {loop:-1});
-					else if (droplets.paused) droplets.paused = false;
-				}
-				else if (intensity <= 100 && droplets)
-				{
-					if (droplets) droplets.paused = true;
+					if (intensity > sounds[i].intensity)
+					{
+						if (!sounds[i].instance)
+						{
+							sounds[i].instance = createjs.Sound.play(sounds[i].effect, {loop:-1});
+						}
+						else if (sounds[i].instance.paused)
+						{
+							sounds[i].instance.paused = false;
+						}
+
+						var volume = intensity - sounds[i].intensity;
+						var VOLUME_THRESHOLD = 200;
+						if (volume > VOLUME_THRESHOLD) volume = VOLUME_THRESHOLD;
+						sounds[i].instance.volume = volume/VOLUME_THRESHOLD;
+					}
+					else if (intensity <= sounds[i].intensity && sounds[i].instance)
+					{
+						if (sounds[i].instance.volume <= 0) sounds[i].instance.paused = true;
+						else sounds[i].instance.volume -= 0.1;
+					}
 				}
 
 				console.log(intensity);
 			});
+
+			function getRandomInt(min, max)
+			{
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.floor(Math.random() * (max - min)) + min;
+			}
 		</script>
 	</body>
 </html>
