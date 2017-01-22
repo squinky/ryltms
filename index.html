@@ -14,6 +14,18 @@
 			createjs.Sound.registerSound("dreamscapeambienttrack.ogg", "ambient1");
 			createjs.Sound.registerSound("lowkeyambienttrack.ogg", "ambient2");
 
+			var i = 0;
+			for (i = 1; i <= 45; i++)
+			{
+				if (i < 10) createjs.Sound.registerSound("poemj0"+i+".ogg", "poemj0"+i);
+				else createjs.Sound.registerSound("poemj"+i+".ogg", "poemj"+i);
+			}
+			for (i = 1; i <= 10; i++)
+			{
+				if (i < 10) createjs.Sound.registerSound("sciencej0"+i+".ogg", "sciencej0"+i);
+				else createjs.Sound.registerSound("sciencej"+i+".ogg", "sciencej"+i);
+			}
+
 			function loadHandler()
 			{
 				createjs.Sound.play("lightrain", {loop:-1});
@@ -28,10 +40,25 @@
 			];
 			sounds[1].effect = music[getRandomInt(0, music.length)];
 
+			var voice = [
+				{ "intensity": 100, "lines": [], "instance": null },
+				{ "intensity": 300, "lines": [], "instance": null }
+			];
+			for (i = 1; i <= 45; i++)
+			{
+				if (i < 10) voice[1].lines.push("poemj0"+i);
+				else voice[1].lines.push("poemj"+i);
+			}
+			for (i = 1; i <= 10; i++)
+			{
+				if (i < 10) voice[0].lines.push("sciencej0"+i);
+				else voice[0].lines.push("sciencej"+i);
+			}
+
 			var socket = io();
 			socket.on('update', function(intensity)
 			{
-				for (var i = 0; i < sounds.length; i++)
+				for (i = 0; i < sounds.length; i++)
 				{
 					if (intensity > sounds[i].intensity)
 					{
@@ -53,6 +80,17 @@
 					{
 						if (sounds[i].instance.volume <= 0) sounds[i].instance.paused = true;
 						else sounds[i].instance.volume -= 0.1;
+					}
+				}
+
+				for (i = 0; i < voice.length; i++)
+				{
+					if (intensity > voice[i].intensity)
+					{
+						if (!voice[i].instance || voice[i].instance.position == 0)
+						{
+							voice[i].instance = createjs.Sound.play(voice[i].lines[getRandomInt(0, voice[i].lines.length)]);
+						}
 					}
 				}
 
