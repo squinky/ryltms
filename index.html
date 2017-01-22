@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>rustle your leaves to me softly: an asmr plant dating simulator</title>
+	</head>
+	<body bgcolor="#000000">
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="soundjs-0.6.2.min.js"></script>
+		<script>
+			var droplets;
+			createjs.Sound.registerSound("waterdropletsloop1.ogg", "droplets");
+
+			var socket = io();
+			socket.on('update', function(intensity)
+			{
+				if (intensity > 100)
+				{
+					if (!droplets) droplets = createjs.Sound.play("droplets", {loop:-1});
+					else if (droplets.paused) droplets.paused = false;
+				}
+				else if (intensity <= 100 && droplets)
+				{
+					if (droplets) droplets.paused = true;
+				}
+
+				console.log(intensity);
+			});
+		</script>
+	</body>
+</html>

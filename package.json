@@ -1,0 +1,13 @@
+{
+	"name": "ryltms",
+	"version": "0.0.0",
+	"description": "rustle your leaves to me softly: an asmr plant dating simulator",
+	"main": "app.js",
+	"dependencies":
+	{
+		"serialport": "latest",
+		"express": "latest",
+		"socket.io": "latest",
+		"createjs-soundjs": "latest"
+	}
+}
