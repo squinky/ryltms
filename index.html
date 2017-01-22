@@ -17,13 +17,29 @@
 			var i = 0;
 			for (i = 1; i <= 45; i++)
 			{
-				if (i < 10) createjs.Sound.registerSound("poemj0"+i+".ogg", "poemj0"+i);
-				else createjs.Sound.registerSound("poemj"+i+".ogg", "poemj"+i);
+				if (i < 10)
+				{
+					createjs.Sound.registerSound("poemj0"+i+".ogg", "poemj0"+i);
+					createjs.Sound.registerSound("poems0"+i+".ogg", "poems0"+i);
+				}
+				else
+				{
+					createjs.Sound.registerSound("poemj"+i+".ogg", "poemj"+i);
+					createjs.Sound.registerSound("poems"+i+".ogg", "poems"+i);
+				}
 			}
 			for (i = 1; i <= 10; i++)
 			{
-				if (i < 10) createjs.Sound.registerSound("sciencej0"+i+".ogg", "sciencej0"+i);
-				else createjs.Sound.registerSound("sciencej"+i+".ogg", "sciencej"+i);
+				if (i < 10)
+				{
+					createjs.Sound.registerSound("sciencej0"+i+".ogg", "sciencej0"+i);
+					createjs.Sound.registerSound("sciences0"+i+".ogg", "sciences0"+i);
+				}
+				else
+				{
+					createjs.Sound.registerSound("sciencej"+i+".ogg", "sciencej"+i);
+					createjs.Sound.registerSound("sciences"+i+".ogg", "sciences"+i);
+				}
 			}
 
 			function loadHandler()
@@ -44,15 +60,17 @@
 				{ "intensity": 100, "lines": [], "instance": null },
 				{ "intensity": 300, "lines": [], "instance": null }
 			];
+			var ps = getRandomInt(0, 2) ? "j" : "s";
+			var ss = getRandomInt(0, 2) ? "j" : "s";
 			for (i = 1; i <= 45; i++)
 			{
-				if (i < 10) voice[1].lines.push("poemj0"+i);
-				else voice[1].lines.push("poemj"+i);
+				if (i < 10) voice[1].lines.push("poem"+ps+"0"+i);
+				else voice[1].lines.push("poem"+ps+i);
 			}
 			for (i = 1; i <= 10; i++)
 			{
-				if (i < 10) voice[0].lines.push("sciencej0"+i);
-				else voice[0].lines.push("sciencej"+i);
+				if (i < 10) voice[0].lines.push("science"+ss+"0"+i);
+				else voice[0].lines.push("science"+ss+i);
 			}
 
 			var socket = io();
