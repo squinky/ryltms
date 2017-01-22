@@ -11,17 +11,22 @@
 			createjs.Sound.registerSound("leavesloop1.ogg", "leaves");
 			createjs.Sound.registerSound("lightrainloop1.ogg", "lightrain");
 			createjs.Sound.registerSound("rain-dropletcomboloop1.ogg", "raindropletcombo");
+			createjs.Sound.registerSound("dreamscapeambienttrack.ogg", "ambient1");
+			createjs.Sound.registerSound("lowkeyambienttrack.ogg", "ambient2");
 
 			function loadHandler()
 			{
 				createjs.Sound.play("lightrain", {loop:-1});
 			}
 
+			var music = [ "ambient1", "ambient2" ];
 			var sounds = [
 				{ "intensity": 0, "effect": "raindropletcombo", "instance": null },
+				{ "intensity": 100, "effect": null, "instance": null },
 				{ "intensity": 500, "effect": "leaves", "instance": null },
 				{ "intensity": 700, "effect": "droplets", "instance": null }
 			];
+			sounds[1].effect = music[getRandomInt(0, music.length)];
 
 			var socket = io();
 			socket.on('update', function(intensity)
