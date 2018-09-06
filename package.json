@@ -5,7 +5,7 @@
 	"main": "app.js",
 	"dependencies":
 	{
-		"serialport": "latest",
+		"serialport": "4.0.7",
 		"express": "latest",
 		"socket.io": "latest",
 		"createjs-soundjs": "latest"
