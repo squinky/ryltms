@@ -1,7 +1,7 @@
-var SerialPort = require('serialport');
-var serialport = new SerialPort("/dev/cu.usbserial-DN01HSF9",
-{
-	parser: SerialPort.parsers.readline('\n')
+const { SerialPort } = require('serialport');
+const serialport = new SerialPort({
+  path: 'COM1',
+  baudRate: 9600,
 });
 
 var express = require('express');
